@@ -1,0 +1,25 @@
+{
+    "name": "solidity-big-number",
+    "version": "1.0.0",
+    "description": "Solidity Big Number",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/barakman/solidity-big-number.git"
+    },
+    "author": "Barak Manos",
+    "license": "ISC",
+    "files": [
+        "project/contracts/*.sol"
+    ],
+    "scripts": {
+        "build": "truffle compile",
+        "test": "truffle test --bail",
+        "verify": "truffle run coverage"
+    },
+    "devDependencies": {
+        "decimal.js": "10.3.1",
+        "solidity-coverage": "0.7.18",
+        "truffle": "5.4.32",
+        "web3": "1.7.0"
+    }
+}
