@@ -26,6 +26,8 @@ In the example above, it yields `(100 * 25 + 51 * 1) / (51 * 25) = 2`, which ref
 RationalNum maintains the entire expression as a rational number, thus allowing to avoid the rearrangement and implement the computation in its "native form".
 Using it will typically be less cost-effective, hence it is advisable to use NaturalNum whenever performance is considered critical.
 
+<br/><br/>
+
 ---
 
 <br/><br/>
