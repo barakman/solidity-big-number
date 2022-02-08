@@ -118,20 +118,20 @@ This module supports the following operations:
 ### Prerequisites
 
 - `node 16.13.0`
-- `yarn 1.22.10`
+- `yarn 1.22.10` or `npm 8.1.0`
 
 ### Installation
 
-- `yarn install`
+- `yarn install` or `npm install`
 
 ### Compilation
 
-- `yarn build`
+- `yarn build` or `npm run build`
 
 ### Execution
 
-- `yarn test`
+- `yarn test` or `npm run test`
 
 ### Verification
 
-- `yarn verify`
+- `yarn verify` or `npm run verify`
