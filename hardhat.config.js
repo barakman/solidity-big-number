@@ -3,7 +3,7 @@ require("solidity-coverage")
 
 const Decimal = require("decimal.js");
 
-Decimal.set({precision: 155, rounding: Decimal.ROUND_DOWN});
+Decimal.set({precision: 300, rounding: Decimal.ROUND_HALF_EVEN});
 
 module.exports = {
     solidity: {
