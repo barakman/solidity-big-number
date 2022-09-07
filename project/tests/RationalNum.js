@@ -4,10 +4,10 @@ const assertRevert = require("./helpers/Utilities.js").assertRevert;
 
 const Decimal = require("decimal.js");
 
-const BN = web3.utils.BN;
+const toBN = web3.utils.toBN;
 
-const MIN = new BN(0);
-const MAX = new BN(1).shln(256).subn(1);
+const MIN = toBN(0);
+const MAX = toBN(1).shln(256).subn(1);
 
 const SMALL_VALUES = [...Array(5).keys()].map(n => MIN.addn(n));
 const LARGE_VALUES = [...Array(5).keys()].map(n => MAX.subn(n));
@@ -26,8 +26,8 @@ contract("RationalNum", () => {
     const encode = x => [x.s, encodeComponent(x.n), encodeComponent(x.d)];
     const decode = x => val(x[0], decodeComponent(x[1]), decodeComponent(x[2]));
 
-    const encodeComponent = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => new BN(x.shrn(n * 256).maskn(256)));
-    const decodeComponent = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(new BN(x[n]).shln(n * 256)), new BN(0));
+    const encodeComponent = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => toBN(x.shrn(n * 256).maskn(256)));
+    const decodeComponent = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
 
     const funcs = {
         eq : {expected: (x, y) => x.val.eq (y.val), actual: async (x, y) =>        await rationalNum.eq (encode(x), encode(y)) },

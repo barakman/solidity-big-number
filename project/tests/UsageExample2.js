@@ -1,8 +1,8 @@
 const UsageExample2 = artifacts.require("UsageExample2");
 
-const BN = web3.utils.BN;
+const toBN = web3.utils.toBN;
 
-const continuedFraction = values => values.slice(1).reduce((x, y) => ({n: x.n.muln(y).add(x.d), d: x.n}), {n: new BN(values[0]), d: new BN(1)});
+const continuedFraction = values => values.slice(1).reduce((x, y) => ({n: x.n.muln(y).add(x.d), d: x.n}), {n: toBN(values[0]), d: toBN(1)});
 
 contract("UsageExample2", () => {
     let usageExample2;
