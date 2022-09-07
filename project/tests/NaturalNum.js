@@ -2,11 +2,11 @@ const NaturalNum = artifacts.require("NaturalNumUser");
 
 const assertRevert = require("./helpers/Utilities.js").assertRevert;
 
-const BN = web3.utils.BN;
+const toBN = web3.utils.toBN;
 
-const MIN = new BN(0);
-const MID = new BN(1).shln(128).subn(1);
-const MAX = new BN(1).shln(256).subn(1);
+const MIN = toBN(0);
+const MID = toBN(1).shln(128).subn(1);
+const MAX = toBN(1).shln(256).subn(1);
 
 const SMALL_VALUES = [
     ...[...Array(4).keys()].map(n => MIN.addn(n)),
@@ -15,9 +15,9 @@ const SMALL_VALUES = [
 ];
 
 const LARGE_VALUES = [
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(new BN(2))),
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(new BN(3))),
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(new BN(4))),
+    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(2))),
+    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(3))),
+    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(4))),
 ];
 
 contract("NaturalNum", () => {
@@ -27,8 +27,8 @@ contract("NaturalNum", () => {
         naturalNum = await NaturalNum.new();
     });
 
-    const encode = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => new BN(x.shrn(n * 256).maskn(256)));
-    const decode = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(new BN(x[n]).shln(n * 256)), new BN(0));
+    const encode = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => toBN(x.shrn(n * 256).maskn(256)));
+    const decode = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
 
     const funcs = {
         eq : {expected: (x, y) => x.eq  (y), actual: async (x, y) =>        await naturalNum.eq (encode(x), encode(y)) },
@@ -112,8 +112,8 @@ contract("NaturalNum", () => {
 
     for (let n = 0; n < 64; n++) {
         it(`div(${n}!, 2^${n})`, async () => {
-            const x = [...Array(n).keys()].reduce((k, i) => k.muln(i + 1), new BN(1));
-            const y = new BN(1).shln(n);
+            const x = [...Array(n).keys()].reduce((k, i) => k.muln(i + 1), toBN(1));
+            const y = toBN(1).shln(n);
             const expected = funcs.div.expected(x, y);
             const actual = await funcs.div.actual(x, y);
             assert.equal(actual.toString(), expected.toString());
@@ -122,9 +122,9 @@ contract("NaturalNum", () => {
 
     for (let n = 0; n < 32; n++) {
         it(`pow(2^${256 - n}-1, ${n})`, async () => {
-            const x = new BN(1).shln(256 - n).subn(1);
-            const expected = funcs.pow.expected(x, new BN(n));
-            const actual = await funcs.pow.actual(x, new BN(n));
+            const x = toBN(1).shln(256 - n).subn(1);
+            const expected = funcs.pow.expected(x, toBN(n));
+            const actual = await funcs.pow.actual(x, toBN(n));
             assert.equal(actual.toString(), expected.toString());
         });
     }

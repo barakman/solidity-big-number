@@ -2,11 +2,11 @@ const UsageExample1 = artifacts.require("UsageExample1");
 
 const assertRevert = require("./helpers/Utilities.js").assertRevert;
 
-const BN = web3.utils.BN;
+const toBN = web3.utils.toBN;
 
-const MAX = new BN(1).shln(256).subn(1);
+const MAX = toBN(1).shln(256).subn(1);
 
-const Fraction = (n, d) => ({n: new BN(n), d: new BN(d)});
+const Fraction = (n, d) => ({n: toBN(n), d: toBN(d)});
 
 contract("UsageExample1", () => {
     let usageExample1;
