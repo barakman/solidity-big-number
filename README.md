@@ -14,9 +14,9 @@ For example, consider `a / b + c / d` with `a = 100, b = 51, c = 1, d = 25`, and
 
 The true value of this expression is `100 / 51 + 1 / 25 = 2.00078...`, so ideally on a fixed-point infrastructure, we would want our implementation to yield `2`.
 
-The straightforward implementation `a / b + c / d` is very innacurate of course.
+The straightforward implementation `a / b + c / d` is very inaccurate of course.
 
-It yields the output `100 / 51 + 1 / 25 = 1 + 0 = 1`, which reflects an inaccuracy of more than 50% comparing with the true value.
+It yields the output `100 / 51 + 1 / 25 = 1 + 0 = 1`, which reflects an inaccuracy of more than 50% compared with the true value.
 
 But rearranging it such that division takes place as the very last step using `(a * d + b * c) / (b * d)` reverts the transaction.
 
