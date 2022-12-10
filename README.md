@@ -28,7 +28,7 @@ This package consists of the following libraries:
 
 NaturalNum handles the size-limit internally, thus allowing to rearrange any computation and achieve maximum accuracy without reducing the size of valid input range.
 
-In the example above, it yields `(100 * 25 + 51 * 1) / (51 * 25) = 2`, which reflects an inaccuracy of less than 0.04% comparing with the true value.
+In the example above, it yields `(100 * 25 + 51 * 1) / (51 * 25) = 2`, which reflects an inaccuracy of less than 0.04% compared with the true value.
 
 RationalNum maintains the entire expression as a rational number, thus allowing to avoid the rearrangement and implement the computation in its "native form".
 
