@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.20;
+pragma solidity 0.8.27;
 
 library NaturalNum {
     function encode(uint256 val) internal pure returns (uint256[] memory) { unchecked {
