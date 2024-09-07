@@ -127,4 +127,14 @@ describe(TestContract.contractName, () => {
             assert.equal(actual.toString(), expected.toString());
         });
     }
+
+    for (let x = 0; x < 10; x++) {
+        for (let n = 0; n < 10; n++) {
+            it(`pow(${x}, ${n})`, async () => {
+                const expected = funcs.pow.expected(toBN(x), toBN(n));
+                const actual = await funcs.pow.actual(toBN(x), toBN(n));
+                assert.equal(actual.toString(), expected.toString());
+            });
+        }
+    }
 });

@@ -149,11 +149,8 @@ library NaturalNum {
     }}
 
     function pow(uint256[] memory x, uint256 n) internal pure returns (uint256[] memory) { unchecked {
-        require(x.length > 0 || n > 0, "not a number");
-        if (x.length == 0 /* && n > 0 */)
-            return encode(0);
-        if (/* x.length > 0 && */ n == 0)
-            return encode(1);
+        if (x.length == 0 || n == 0)
+            return encode(x.length ** n);
 
         uint256[] memory result = encode(1);
         uint256[][] memory factors = new uint256[][](bitLength(n));
