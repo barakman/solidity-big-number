@@ -1,7 +1,5 @@
-const RationalNum = artifacts.require("RationalNumUser");
-
-const assertRevert = require("./helpers/Utilities.js").assertRevert;
-
+const TestContract = artifacts.require("RationalNumUser");
+const Utilities = require("./helpers/Utilities.js");
 const Decimal = require("decimal.js");
 
 const toBN = web3.utils.toBN;
@@ -12,11 +10,11 @@ const MAX = toBN(1).shln(256).subn(1);
 const SMALL_VALUES = [...Array(5).keys()].map(n => MIN.addn(n));
 const LARGE_VALUES = [...Array(5).keys()].map(n => MAX.subn(n));
 
-contract("RationalNum", () => {
-    let rationalNum;
+describe(TestContract.contractName, () => {
+    let testContract;
 
     before(async () => {
-        rationalNum = await RationalNum.new();
+        testContract = await TestContract.new();
     });
 
     const str = (s, n, d) => `${s ? "-" : "+"}${n}/${d}`;
@@ -30,15 +28,15 @@ contract("RationalNum", () => {
     const decodeComponent = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
 
     const funcs = {
-        eq : {expected: (x, y) => x.val.eq (y.val), actual: async (x, y) =>        await rationalNum.eq (encode(x), encode(y)) },
-        gt : {expected: (x, y) => x.val.gt (y.val), actual: async (x, y) =>        await rationalNum.gt (encode(x), encode(y)) },
-        lt : {expected: (x, y) => x.val.lt (y.val), actual: async (x, y) =>        await rationalNum.lt (encode(x), encode(y)) },
-        gte: {expected: (x, y) => x.val.gte(y.val), actual: async (x, y) =>        await rationalNum.gte(encode(x), encode(y)) },
-        lte: {expected: (x, y) => x.val.lte(y.val), actual: async (x, y) =>        await rationalNum.lte(encode(x), encode(y)) },
-        add: {expected: (x, y) => x.val.add(y.val), actual: async (x, y) => decode(await rationalNum.add(encode(x), encode(y)))},
-        sub: {expected: (x, y) => x.val.sub(y.val), actual: async (x, y) => decode(await rationalNum.sub(encode(x), encode(y)))},
-        mul: {expected: (x, y) => x.val.mul(y.val), actual: async (x, y) => decode(await rationalNum.mul(encode(x), encode(y)))},
-        div: {expected: (x, y) => x.val.div(y.val), actual: async (x, y) => decode(await rationalNum.div(encode(x), encode(y)))},
+        eq : {expected: (x, y) => x.val.eq (y.val), actual: async (x, y) =>        await testContract.eq (encode(x), encode(y)) },
+        gt : {expected: (x, y) => x.val.gt (y.val), actual: async (x, y) =>        await testContract.gt (encode(x), encode(y)) },
+        lt : {expected: (x, y) => x.val.lt (y.val), actual: async (x, y) =>        await testContract.lt (encode(x), encode(y)) },
+        gte: {expected: (x, y) => x.val.gte(y.val), actual: async (x, y) =>        await testContract.gte(encode(x), encode(y)) },
+        lte: {expected: (x, y) => x.val.lte(y.val), actual: async (x, y) =>        await testContract.lte(encode(x), encode(y)) },
+        add: {expected: (x, y) => x.val.add(y.val), actual: async (x, y) => decode(await testContract.add(encode(x), encode(y)))},
+        sub: {expected: (x, y) => x.val.sub(y.val), actual: async (x, y) => decode(await testContract.sub(encode(x), encode(y)))},
+        mul: {expected: (x, y) => x.val.mul(y.val), actual: async (x, y) => decode(await testContract.mul(encode(x), encode(y)))},
+        div: {expected: (x, y) => x.val.div(y.val), actual: async (x, y) => decode(await testContract.div(encode(x), encode(y)))},
     };
 
     for (const s of [false, true]) {
@@ -46,11 +44,11 @@ contract("RationalNum", () => {
             for (const d of [...SMALL_VALUES, ...LARGE_VALUES]) {
                 it(`cast(${str(s, n, d)})`, async () => {
                     if (d.eqn(0)) {
-                        await assertRevert(rationalNum.encode(s, n, d), "zero denominator");
+                        await Utilities.assertRevert(testContract.encode(s, n, d), "zero denominator");
                     }
                     else {
                         const expected = decode(encode({s, n, d}));
-                        const actual = decode(await rationalNum.encode(s, n, d));
+                        const actual = decode(await testContract.encode(s, n, d));
                         assert.equal(actual.toFixed(), expected.toFixed());
                     }
                 });
@@ -70,7 +68,7 @@ contract("RationalNum", () => {
                                     const y = num(sy, ny, dy);
                                     it(`${func}(${x.str}, ${y.str})`, async () => {
                                         if (dx.eqn(0) || dy.eqn(0)) {
-                                            await assertRevert(funcs[func].actual(x, y), "zero denominator");
+                                            await Utilities.assertRevert(funcs[func].actual(x, y), "zero denominator");
                                         }
                                         else {
                                             const expected = funcs[func].expected(x, y);
@@ -99,7 +97,7 @@ contract("RationalNum", () => {
                                     const y = num(sy, ny, dy);
                                     it(`${func}(${x.str}, ${y.str})`, async () => {
                                         if (dx.eqn(0) || dy.eqn(0) || (ny.eqn(0) && func == "div")) {
-                                            await assertRevert(funcs[func].actual(x, y), "zero denominator");
+                                            await Utilities.assertRevert(funcs[func].actual(x, y), "zero denominator");
                                         }
                                         else {
                                             const expected = funcs[func].expected(x, y);
