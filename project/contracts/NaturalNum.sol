@@ -278,11 +278,11 @@ library NaturalNum {
         while (length > 0 && num[length - 1] == 0)
             --length;
 
-        assembly { mstore(num, length) }
+        assembly {mstore(num, length)}
         return num;
     }}
 
     function cast(bool b) private pure returns (uint256 u) { unchecked {
-        assembly { u := b }
+        assembly {u := b}
     }}
 }
