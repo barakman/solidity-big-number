@@ -137,4 +137,12 @@ describe(TestContract.contractName, () => {
             });
         }
     }
+
+    for (const [x, n] of [[MIN, MIN], [MIN, MAX], [MAX, MIN]]) {
+        it(`pow(${x}, ${n})`, async () => {
+            const expected = funcs.pow.expected(x, n);
+            const actual = await funcs.pow.actual(x, n);
+            assert.equal(actual.toString(), expected.toString());
+        });
+    }
 });
