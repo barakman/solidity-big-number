@@ -19,14 +19,14 @@ library RationalNum {
 
     function decode(Rnum memory num) internal pure returns (bool, uint256, uint256) {
         num = compress(num);
-	    return (num.s, num.n.decode(), num.d.decode());
+        return (num.s, num.n.decode(), num.d.decode());
     }
 
     function eq(Rnum memory x, Rnum memory y) internal pure returns (bool) {
         (x, y) = (compress(x), compress(y));
         if (x.s != y.s)
             return false;
-	    return x.n.mul(y.d).eq(y.n.mul(x.d));
+        return x.n.mul(y.d).eq(y.n.mul(x.d));
     }
 
     function gt(Rnum memory x, Rnum memory y) internal pure returns (bool) {
@@ -35,7 +35,7 @@ library RationalNum {
             return y.s;
         if (x.s)
             return x.n.mul(y.d).lt(y.n.mul(x.d));
-	    return x.n.mul(y.d).gt(y.n.mul(x.d));
+        return x.n.mul(y.d).gt(y.n.mul(x.d));
     }
 
     function lt(Rnum memory x, Rnum memory y) internal pure returns (bool) {
@@ -44,7 +44,7 @@ library RationalNum {
             return x.s;
         if (x.s)
             return x.n.mul(y.d).gt(y.n.mul(x.d));
-	    return x.n.mul(y.d).lt(y.n.mul(x.d));
+        return x.n.mul(y.d).lt(y.n.mul(x.d));
     }
 
     function gte(Rnum memory x, Rnum memory y) internal pure returns (bool) {
