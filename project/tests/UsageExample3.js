@@ -13,12 +13,12 @@ describe(TestContract.contractName, () => {
         testContract = await TestContract.new();
     });
 
-    for (let n = -9; n <= 9; n++) {
-        for (let d = 1; d <= 19; d++) {
+    for (let n = -10; n <= 10; n++) {
+        for (let d = 2; d <= 19; d++) {
             it(`exp(${n} / ${d})`, async () => {
                 const expected = Decimal(n).div(d).exp();
                 const actual = toDecimal(await testContract.exp([n / d < 0, [Math.abs(n)], [Math.abs(d)]], ITERATIONS));
-                Utilities.assertAlmostEqual(actual, expected, "0.0000000006");
+                Utilities.assertAlmostEqual(actual, expected, "1e-15");
             });
         }
     }
