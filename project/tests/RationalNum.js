@@ -102,14 +102,7 @@ describe(TestContract.contractName, () => {
                                         else {
                                             const expected = funcs[func].expected(x, y);
                                             const actual = await funcs[func].actual(x, y);
-                                            if (!actual.eq(expected)) {
-                                                const error = actual.div(expected).sub(1).abs();
-                                                assert(error.lte("1e-100"),
-                                                    `\nexpected = ${expected.toFixed()}` +
-                                                    `\nactual   = ${actual  .toFixed()}` +
-                                                    `\nerror    = ${error   .toFixed()}`
-                                                );
-                                            }
+                                            Utilities.assertAlmostEqual(actual, expected, "1e-100");
                                         }
                                     });
                                 }
