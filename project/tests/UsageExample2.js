@@ -1,21 +1,21 @@
-const UsageExample2 = artifacts.require("UsageExample2");
+const TestContract = artifacts.require("UsageExample2");
 
 const toBN = web3.utils.toBN;
 
 const continuedFraction = values => values.slice(1).reduce((x, y) => ({n: x.n.muln(y).add(x.d), d: x.n}), {n: toBN(values[0]), d: toBN(1)});
 
-contract("UsageExample2", () => {
-    let usageExample2;
+describe(TestContract.contractName, () => {
+    let testContract;
 
     before(async () => {
-        usageExample2 = await UsageExample2.new();
+        testContract = await TestContract.new();
     });
 
     function test(length, generator) {
         const values = [...Array(length).keys()].map(generator);
         it(`continuedFraction(${values})`, async () => {
             const expected = continuedFraction(values.slice().reverse());
-            const actual = await usageExample2.continuedFraction(values);
+            const actual = await testContract.continuedFraction(values);
             assert.equal(`${actual.n}/${actual.d}`, `${expected.n}/${expected.d}`);
         });
     }

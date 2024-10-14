@@ -117,8 +117,8 @@ This module supports the following operations:
 
 ### Prerequisites
 
-- `node 16.13.0`
-- `yarn 1.22.10` or `npm 8.1.0`
+- `node 20.17.0`
+- `yarn 1.22.22` or `npm 10.8.2`
 
 ### Installation
 
