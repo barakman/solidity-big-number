@@ -102,7 +102,7 @@ describe(TestContract.contractName, () => {
                                         else {
                                             const expected = funcs[func].expected(x, y);
                                             const actual = await funcs[func].actual(x, y);
-                                            Utilities.assertAlmostEqual(actual, expected, "1e-100");
+                                            Utilities.assertAlmostEqual(actual, expected, "1e-145");
                                         }
                                     });
                                 }
