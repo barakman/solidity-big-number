@@ -7,8 +7,8 @@ const toBN = web3.utils.toBN;
 const MIN = toBN(0);
 const MAX = toBN(1).shln(256).subn(1);
 
-const SMALL_VALUES = [...Array(5).keys()].map(n => MIN.addn(n));
-const LARGE_VALUES = [...Array(5).keys()].map(n => MAX.subn(n));
+const SMALL_VALUES = [...Array(5).keys()].map(k => MIN.addn(k));
+const LARGE_VALUES = [...Array(5).keys()].map(k => MAX.subn(k));
 
 describe(TestContract.contractName, () => {
     let testContract;
@@ -24,8 +24,8 @@ describe(TestContract.contractName, () => {
     const encode = x => [x.s, encodeComponent(x.n), encodeComponent(x.d)];
     const decode = x => val(x[0], decodeComponent(x[1]), decodeComponent(x[2]));
 
-    const encodeComponent = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => toBN(x.shrn(n * 256).maskn(256)));
-    const decodeComponent = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
+    const encodeComponent = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(k => toBN(x.shrn(k * 256).maskn(256)));
+    const decodeComponent = x => [...Array(Number(x.length)).keys()].reduce((a, k) => a.add(toBN(x[k]).shln(k * 256)), toBN(0));
 
     const funcs = {
         eq : {expected: (x, y) => x.val.eq (y.val), actual: async (x, y) =>        await testContract.eq (encode(x), encode(y)) },

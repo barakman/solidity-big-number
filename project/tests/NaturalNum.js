@@ -8,15 +8,15 @@ const MID = toBN(1).shln(128).subn(1);
 const MAX = toBN(1).shln(256).subn(1);
 
 const SMALL_VALUES = [
-    ...[...Array(4).keys()].map(n => MIN.addn(n)),
-    ...[...Array(4).keys()].map(n => MID.addn(n)),
-    ...[...Array(4).keys()].map(n => MAX.addn(n)),
+    ...[...Array(4).keys()].map(k => MIN.addn(k)),
+    ...[...Array(4).keys()].map(k => MID.addn(k)),
+    ...[...Array(4).keys()].map(k => MAX.addn(k)),
 ];
 
 const LARGE_VALUES = [
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(2))),
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(3))),
-    ...[...Array(4).keys()].map(n => MAX.subn(n).pow(toBN(4))),
+    ...[...Array(4).keys()].map(k => MAX.subn(k).pow(toBN(2))),
+    ...[...Array(4).keys()].map(k => MAX.subn(k).pow(toBN(3))),
+    ...[...Array(4).keys()].map(k => MAX.subn(k).pow(toBN(4))),
 ];
 
 describe(TestContract.contractName, () => {
@@ -26,8 +26,8 @@ describe(TestContract.contractName, () => {
         testContract = await TestContract.new();
     });
 
-    const encode = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(n => toBN(x.shrn(n * 256).maskn(256)));
-    const decode = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
+    const encode = x => [...Array(Math.ceil(x.bitLength() / 256)).keys()].map(k => toBN(x.shrn(k * 256).maskn(256)));
+    const decode = x => [...Array(Number(x.length)).keys()].reduce((a, k) => a.add(toBN(x[k]).shln(k * 256)), toBN(0));
 
     const funcs = {
         eq : {expected: (x, y) => x.eq  (y), actual: async (x, y) =>        await testContract.eq (encode(x), encode(y)) },
@@ -111,7 +111,7 @@ describe(TestContract.contractName, () => {
 
     for (let n = 0; n < 64; n++) {
         it(`div(${n}!, 2^${n})`, async () => {
-            const x = [...Array(n).keys()].reduce((k, i) => k.muln(i + 1), toBN(1));
+            const x = [...Array(n).keys()].reduce((a, k) => a.muln(k + 1), toBN(1));
             const y = toBN(1).shln(n);
             const expected = funcs.div.expected(x, y);
             const actual = await funcs.div.actual(x, y);

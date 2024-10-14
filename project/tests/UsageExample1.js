@@ -15,7 +15,7 @@ describe(TestContract.contractName, () => {
     });
 
     function test(length, generator, description) {
-        const values = [...Array(length).keys()].map(i => Fraction(...generator(i)));
+        const values = [...Array(length).keys()].map(k => Fraction(...generator(k)));
         const fractions = values.map(value => ({n: value.n.toString(), d: value.d.toString()}));
         const sum = values.reduce((x, y) => Fraction(x.n.mul(y.d).add(x.d.mul(y.n)), x.d.mul(y.d)), Fraction(0, 1));
 

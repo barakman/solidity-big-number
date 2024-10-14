@@ -4,7 +4,7 @@ const Decimal = require("decimal.js");
 
 const toBN = web3.utils.toBN;
 
-const toNatural = x => [...Array(Number(x.length)).keys()].reduce((a, n) => a.add(toBN(x[n]).shln(n * 256)), toBN(0));
+const toNatural = x => [...Array(Number(x.length)).keys()].reduce((a, k) => a.add(toBN(x[k]).shln(k * 256)), toBN(0));
 const toDecimal = x => Decimal(toNatural(x[0]).toString()).div(toNatural(x[1]).toString());
 
 describe(TestContract.contractName, () => {
