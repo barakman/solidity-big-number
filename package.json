@@ -1,6 +1,6 @@
 {
     "name": "solidity-big-number",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "description": "Solidity Big Number",
     "repository": {
         "type": "git",
