@@ -1,6 +1,5 @@
-const UsageExample1 = artifacts.require("UsageExample1");
-
-const assertRevert = require("./helpers/Utilities.js").assertRevert;
+const TestContract = artifacts.require("UsageExample1");
+const Utilities = require("./helpers/Utilities.js");
 
 const toBN = web3.utils.toBN;
 
@@ -8,48 +7,48 @@ const MAX = toBN(1).shln(256).subn(1);
 
 const Fraction = (n, d) => ({n: toBN(n), d: toBN(d)});
 
-contract("UsageExample1", () => {
-    let usageExample1;
+describe(TestContract.contractName, () => {
+    let testContract;
 
     before(async () => {
-        usageExample1 = await UsageExample1.new();
+        testContract = await TestContract.new();
     });
 
     function test(length, generator, description) {
-        const values = [...Array(length).keys()].map(i => Fraction(...generator(i)));
+        const values = [...Array(length).keys()].map(k => Fraction(...generator(k)));
         const fractions = values.map(value => ({n: value.n.toString(), d: value.d.toString()}));
         const sum = values.reduce((x, y) => Fraction(x.n.mul(y.d).add(x.d.mul(y.n)), x.d.mul(y.d)), Fraction(0, 1));
 
         it(`sumExact(${description})`, async () => {
             const expected = sum;
             if (expected.n.or(expected.d).lte(MAX)) {
-                const actual = await usageExample1.sumExact(fractions);
+                const actual = await testContract.sumExact(fractions);
                 assert.equal(`${actual.n}/${actual.d}`, `${expected.n}/${expected.d}`);
             }
             else {
-                await assertRevert(usageExample1.sumExact(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumExact(fractions), "overflow");
             }
         });
 
         it(`sumFloor(${description})`, async () => {
             const expected = sum.n.div(sum.d);
             if (expected.lte(MAX)) {
-                const actual = await usageExample1.sumFloor(fractions);
+                const actual = await testContract.sumFloor(fractions);
                 assert.equal(actual.toString(), expected.toString());
             }
             else {
-                await assertRevert(usageExample1.sumFloor(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumFloor(fractions), "overflow");
             }
         });
 
         it(`sumCeil(${description})`, async () => {
             const expected = sum.n.add(sum.d).subn(1).div(sum.d);
             if (expected.lte(MAX)) {
-                const actual = await usageExample1.sumCeil(fractions);
+                const actual = await testContract.sumCeil(fractions);
                 assert.equal(actual.toString(), expected.toString());
             }
             else {
-                await assertRevert(usageExample1.sumCeil(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumCeil(fractions), "overflow");
             }
         });
     }
