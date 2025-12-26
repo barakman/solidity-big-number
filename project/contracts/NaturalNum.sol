@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.30;
+pragma solidity ^0.8.33;
 
 library NaturalNum {
     function encode(uint256 val) internal pure returns (uint256[] memory) { unchecked {
@@ -257,15 +257,8 @@ library NaturalNum {
 
     function bitLength(uint256 n) private pure returns (uint256) { unchecked {
         uint256 m;
-
-        for (uint256 s = 128; s > 0; s >>= 1) {
-            if (n >= 1 << s) {
-                n >>= s;
-                m |= s;
-            }
-        }
-
-        return m + 1;
+        assembly {m := sub(256, clz(n))}
+        return m;
     }}
 
     function allocate(uint256 length) private pure returns (uint256[] memory) { unchecked {
