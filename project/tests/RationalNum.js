@@ -44,7 +44,7 @@ describe(TestContract.contractName, () => {
             for (const d of [...SMALL_VALUES, ...LARGE_VALUES]) {
                 it(`cast(${str(s, n, d)})`, async () => {
                     if (d.eqn(0)) {
-                        await Utilities.assertRevert(testContract.encode(s, n, d), "zero denominator");
+                        await Utilities.assertRevert(testContract.encode(s, n, d), "ZeroDenominator()");
                     }
                     else {
                         const expected = decode(encode({s, n, d}));
@@ -68,7 +68,7 @@ describe(TestContract.contractName, () => {
                                     const y = num(sy, ny, dy);
                                     it(`${func}(${x.str}, ${y.str})`, async () => {
                                         if (dx.eqn(0) || dy.eqn(0)) {
-                                            await Utilities.assertRevert(funcs[func].actual(x, y), "zero denominator");
+                                            await Utilities.assertRevert(funcs[func].actual(x, y), "ZeroDenominator()");
                                         }
                                         else {
                                             const expected = funcs[func].expected(x, y);
@@ -97,7 +97,7 @@ describe(TestContract.contractName, () => {
                                     const y = num(sy, ny, dy);
                                     it(`${func}(${x.str}, ${y.str})`, async () => {
                                         if (dx.eqn(0) || dy.eqn(0) || (ny.eqn(0) && func == "div")) {
-                                            await Utilities.assertRevert(funcs[func].actual(x, y), "zero denominator");
+                                            await Utilities.assertRevert(funcs[func].actual(x, y), "ZeroDenominator()");
                                         }
                                         else {
                                             const expected = funcs[func].expected(x, y);

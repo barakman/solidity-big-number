@@ -57,7 +57,7 @@ describe(TestContract.contractName, () => {
             }
             else {
                 const number = encode(value);
-                await Utilities.assertRevert(testContract.decode(number), "overflow");
+                await Utilities.assertRevert(testContract.decode(number), "Overflow()");
                 assert.equal(await testContract.bitLength(number), value.bitLength());
             }
         });
@@ -81,10 +81,10 @@ describe(TestContract.contractName, () => {
                 for (const y of values) {
                     it(`${func}(${x}, ${y})`, async () => {
                         if (func == "sub" && x.lt(y)) {
-                            await Utilities.assertRevert(funcs[func].actual(x, y), "underflow");
+                            await Utilities.assertRevert(funcs[func].actual(x, y), "Underflow()");
                         }
                         else if ((func == "div" || func == "mod") && y.eqn(0)) {
-                            await Utilities.assertRevert(funcs[func].actual(x, y), "division by zero");
+                            await Utilities.assertRevert(funcs[func].actual(x, y), "DivisionByZero()");
                         }
                         else {
                             const expected = funcs[func].expected(x, y);

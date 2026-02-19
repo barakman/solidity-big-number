@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity ^0.8.33;
+pragma solidity ^0.8.34;
 
 library NaturalNum {
+    error Overflow();
+    error Underflow();
+    error DivisionByZero();
+
     function encode(uint256 val) internal pure returns (uint256[] memory) { unchecked {
         uint256[] memory num;
         if (val > 0) {
@@ -16,7 +20,7 @@ library NaturalNum {
             return 0;
         if (num.length == 1)
             return num[0];
-        revert("overflow");
+        revert Overflow();
     }}
 
     function eq(uint256[] memory x, uint256[] memory y) internal pure returns (bool) { unchecked {
@@ -98,7 +102,7 @@ library NaturalNum {
     }}
 
     function sub(uint256[] memory x, uint256[] memory y) internal pure returns (uint256[] memory) { unchecked {
-        require(x.length >= y.length, "underflow");
+        require(x.length >= y.length, Underflow());
 
         uint256[] memory result = allocate(x.length);
         uint256 carry = 0;
@@ -109,7 +113,7 @@ library NaturalNum {
         for (uint256 i = y.length; i < x.length; ++i)
             (result[i], carry) = sub(x[i], 0, carry);
 
-        require(carry == 0, "underflow");
+        require(carry == 0, Underflow());
         return compress(result);
     }}
 
@@ -124,7 +128,7 @@ library NaturalNum {
     }}
 
     function div(uint256[] memory x, uint256[] memory y) internal pure returns (uint256[] memory) { unchecked {
-        require(y.length > 0, "division by zero");
+        require(y.length > 0, DivisionByZero());
 
         uint256[] memory result;
         uint256[] memory one = encode(1);
