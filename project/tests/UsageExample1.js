@@ -26,7 +26,7 @@ describe(TestContract.contractName, () => {
                 assert.equal(`${actual.n}/${actual.d}`, `${expected.n}/${expected.d}`);
             }
             else {
-                await Utilities.assertRevert(testContract.sumExact(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumExact(fractions), "Overflow()");
             }
         });
 
@@ -37,7 +37,7 @@ describe(TestContract.contractName, () => {
                 assert.equal(actual.toString(), expected.toString());
             }
             else {
-                await Utilities.assertRevert(testContract.sumFloor(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumFloor(fractions), "Overflow()");
             }
         });
 
@@ -48,7 +48,7 @@ describe(TestContract.contractName, () => {
                 assert.equal(actual.toString(), expected.toString());
             }
             else {
-                await Utilities.assertRevert(testContract.sumCeil(fractions), "overflow");
+                await Utilities.assertRevert(testContract.sumCeil(fractions), "Overflow()");
             }
         });
     }

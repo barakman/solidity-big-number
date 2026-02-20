@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity ^0.8.33;
+pragma solidity ^0.8.34;
 
 import "./NaturalNum.sol";
 
@@ -10,6 +10,8 @@ struct Rnum {
 }
 
 library RationalNum {
+    error ZeroDenominator();
+
     using NaturalNum for uint256;
     using NaturalNum for uint256[];
 
@@ -96,7 +98,7 @@ library RationalNum {
 
     function compress(Rnum memory num) private pure returns (Rnum memory) {
         uint256[] memory zero = NaturalNum.encode(0);
-        require(!num.d.eq(zero), "zero denominator");
+        require(!num.d.eq(zero), ZeroDenominator());
         if (num.n.eq(zero)) {
             num.s = false;
             num.d = NaturalNum.encode(1);
